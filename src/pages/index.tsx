@@ -3,19 +3,17 @@ import {
   Button,
   Flex,
   Heading,
-  IconButton,
   Link,
   Stack,
   Text,
 } from '@chakra-ui/react';
 import { withUrqlClient } from 'next-urql';
-import Layout from '../components/Layout';
-import { usePostsQuery } from '../generated/graphql';
-import { createUrqlClient } from '../utils/createUrqlClient';
 import NextLink from 'next/link';
 import { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import Layout from '../components/Layout';
 import UpdootSection from '../components/UpdootSection';
+import { usePostsQuery } from '../generated/graphql';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Index = () => {
   const [variables, setVariables] = useState({
@@ -30,13 +28,6 @@ const Index = () => {
 
   return (
     <Layout>
-      <Flex align={'center'}>
-        <Heading>LiReddit</Heading>
-        <NextLink href="/create-post">
-          <Link ml={'auto'}>create post</Link>
-        </NextLink>
-      </Flex>
-      <br />
       {!data && fetching ? (
         <div>loading...</div>
       ) : (
@@ -45,7 +36,11 @@ const Index = () => {
             <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
               <UpdootSection post={p}></UpdootSection>
               <Box>
-                <Heading fontSize="xl">{p.title}</Heading>
+                <NextLink href={'/post/[id]'} as={`/post/${p.id}`}>
+                  <Link>
+                    <Heading fontSize="xl">{p.title}</Heading>
+                  </Link>
+                </NextLink>
                 <Text>posted by {p.creator.username}</Text>
                 <Text mt={4}>{p.textSnippet}</Text>
               </Box>
