@@ -23,6 +23,9 @@ const UpdootSection = ({ post }: UpdootSectionProps) => {
       <IconButton
         aria-label="updoot"
         onClick={async () => {
+          if (post.voteStatus === 1) {
+            return;
+          }
           setLoadingState('updoot-loading');
           await vote({
             postId: post.id,
@@ -30,6 +33,7 @@ const UpdootSection = ({ post }: UpdootSectionProps) => {
           });
           setLoadingState('not-loading');
         }}
+        colorScheme={post.voteStatus === 1 ? 'green' : undefined}
         isLoading={loadingState === 'updoot-loading'}
         icon={<ChevronUpIcon h={6} w={6} />}
       ></IconButton>
@@ -37,6 +41,9 @@ const UpdootSection = ({ post }: UpdootSectionProps) => {
       <IconButton
         aria-label="downdoot"
         onClick={async () => {
+          if (post.voteStatus === -1) {
+            return;
+          }
           setLoadingState('downdoot-loading');
           await vote({
             postId: post.id,
@@ -44,6 +51,7 @@ const UpdootSection = ({ post }: UpdootSectionProps) => {
           });
           setLoadingState('not-loading');
         }}
+        colorScheme={post.voteStatus === -1 ? 'red' : undefined}
         isLoading={loadingState === 'downdoot-loading'}
         icon={<ChevronDownIcon h={6} w={6} />}
       ></IconButton>
